@@ -4,7 +4,7 @@
  * IDE V1.6.9
  * Email:TechnicSmraza@outlook.com
  * 
- * Arduino Pong by Gilbert Martinelli and Akash Kujaanhi
+ * Arduino Pong by Gilbert Martinelli and Akash Kumar
  */
 #define H1 11
 #define H2 2 
@@ -23,6 +23,29 @@
 #define L6 9
 #define L7 A4
 #define L8 A5
+
+const byte gameSpeed = 10;  //number of ticks for each frame of gameplay
+
+byte p1height = 3;  //player 1 paddle
+byte p2height = 4;  //player 2 paddle
+
+byte ballX = 3; //ball position
+byte ballY = 3;
+
+byte speedX = 0;  //ball speed
+byte speedY = 0;
+
+unsigned char gameSpace[8][8] = 
+{
+  0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,
+};
 
 unsigned char bigHeart[8][8] =  //Heart-shaped(big)
 {
@@ -47,6 +70,7 @@ unsigned char smallHeart[8][8] =    //Heart-shaped(small)
   0,0,0,1,1,0,0,0,
   0,0,0,0,0,0,0,0,
 };
+
 unsigned char smileyFace[8][8] =   //Other Animation                     
 {
   0,0,1,1,1,1,0,0,
@@ -58,6 +82,17 @@ unsigned char smileyFace[8][8] =   //Other Animation
   0,1,0,0,0,0,1,0,
   0,0,1,1,1,1,0,0,
 };
+
+void blank()
+{
+  for(int i = 0 ; i < 8 ; i++)
+  {
+    for(int j = 0; j < 8 ; j++)
+    {
+      gameSpace[i][j] = 0;
+    }
+  }
+}
 
 void setup()
 {
@@ -82,13 +117,18 @@ void setup()
 
 void loop()
 {
-  for(int i = 0 ; i < 100 ; i++)                       //Cycle 100 times
+  for(int i = 0 ; i < gameSpeed ; i++)
   {
-    Display(smallHeart); //Animation 1
-  }
-  for(int i = 0 ; i < 50 ; i++)                        //Cycle 50 times
-  {                
-    Display(bigHeart); //Animation 2
+    if(i == gameSpeed-1)  //game loop: does work on the last tick
+    {
+      blank();
+      gameSpace[0][p1height] = 1;
+      gameSpace[0][p1height+1] = 1;
+      gameSpace[7][p2height] = 1;
+      gameSpace[7][p2height+1] = 1;
+      gameSpace[ballX][ballY] = 1;
+    }
+    Display(gameSpace); //do this every tick
   }
 }
 
