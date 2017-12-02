@@ -24,10 +24,19 @@
 #define L7 A4
 #define L8 A5
 
-const byte gameSpeed = 10;  //number of ticks for each frame of gameplay
+const byte gameSpeed = 10;  //number of ticks for each frame of 
+
+//input pinouts
+const int p1UpPin   = 13;
+const int p1DownPin = 12;
+const int p2UpPin   = 1;
+const int p2DownPin = 2;
+
+byte victory = 0;     //0 nothing, 1 p1 score, 2 p2 score, 3 p1 win, 4 p2 win
+byte victCounter = 0; //tick counter for victory images
 
 byte p1height = 3;  //player 1 paddle
-byte p2height = 4;  //player 2 paddle
+byte p2height = 3;  //player 2 paddle
 
 byte ballX = 3; //ball position
 byte ballY = 3;
@@ -94,6 +103,31 @@ void blank()
   }
 }
 
+void moveBall()
+{
+  
+}
+
+void moveP1(int dir)
+{
+  if (dir < 0)
+  {
+    if(p1height > 0)
+      p1height--;
+  }
+
+  if (dir > 0)
+  {
+    if(p1height < 6)
+      p1height++;
+  }
+}
+
+void moveP2(int dir)
+{
+
+}
+
 void setup()
 {
   pinMode(H1,OUTPUT);
@@ -113,20 +147,66 @@ void setup()
   pinMode(L6,OUTPUT);
   pinMode(L7,OUTPUT);
   pinMode(L8,OUTPUT);
+
+  pinMode(p1UpPin,INPUT);
+  pinMode(p1DownPin,INPUT);
+  pinMode(p2UpPin,INPUT);
+  pinMode(p2DownPin,INPUT);
 }
 
 void loop()
 {
+  byte p1Input = 0; //0 nothing, 1 up, 2 down
+  byte p2Input = 0; 
+
+  if(digitalRead(p1UpPin == HIGH))
+    p1Input = 1;
+
+  if(digitalRead(p1DownPin == HIGH))
+    p1Input = 2;
+
+  if(digitalRead(p2UpPin == HIGH))
+    p2Input = 1;
+
+  if(digitalRead(p1UpPin == HIGH))
+    p2Input = 2;
+  
   for(int i = 0 ; i < gameSpeed ; i++)
   {
     if(i == gameSpeed-1)  //game loop: does work on the last tick
     {
-      blank();
-      gameSpace[0][p1height] = 1;
-      gameSpace[0][p1height+1] = 1;
-      gameSpace[7][p2height] = 1;
-      gameSpace[7][p2height+1] = 1;
-      gameSpace[ballX][ballY] = 1;
+      if(victory == 0)
+      {
+        blank();
+        
+        switch (p1Input) {
+          case 1:
+            moveP1(-1);
+            break;
+          case 2:
+            moveP1(1);
+            break;
+          default:
+            break;
+        }
+
+        switch (p2Input) {
+          case 1:
+            moveP2(-1);
+            break;
+          case 2:
+            moveP2(1);
+            break;
+          default:
+            break;
+        }
+        gameSpace[0][p1height] = 1;
+        gameSpace[0][p1height+1] = 1;
+        gameSpace[7][p2height] = 1;
+        gameSpace[7][p2height+1] = 1;
+        moveBall();
+        gameSpace[ballX][ballY] = 1;
+      }
     }
     Display(gameSpace); //do this every tick
   }
