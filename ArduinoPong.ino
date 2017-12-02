@@ -30,7 +30,7 @@ const byte gameSpeed = 10;  //number of ticks for each frame of
 const int p1UpPin   = 13;
 const int p1DownPin = 12;
 const int p2UpPin   = 1;
-const int p2DownPin = 2;
+const int p2DownPin = 0;
 
 byte victory = 0;     //0 nothing, 1 p1 score, 2 p2 score, 3 p1 win, 4 p2 win
 byte victCounter = 0; //tick counter for victory images
@@ -125,7 +125,17 @@ void moveP1(int dir)
 
 void moveP2(int dir)
 {
+  if (dir < 0)
+  {
+    if(p2height > 0)
+      p2height--;
+  }
 
+  if (dir > 0)
+  {
+    if(p2height < 6)
+      p2height++;
+  }
 }
 
 void setup()
@@ -206,6 +216,8 @@ void loop()
         gameSpace[7][p2height+1] = 1;
         moveBall();
         gameSpace[ballX][ballY] = 1;
+        p1Input = 0;
+        p2Input = 0;
       }
     }
     Display(gameSpace); //do this every tick
