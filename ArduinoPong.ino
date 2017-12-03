@@ -120,16 +120,16 @@ void moveBall()
     speedY*-1;
   }
 
-  if(speedX < 0 && speedY < 0 && gameSpace[0][ballY-1] == 1)
+  if(speedX < 0 && ballX == 1 && speedY < 0 && gameSpace[0][ballY-1] == 1)
     speedX*-1;
 
-  if(speedX < 0 && speedY > 0 && gameSpace[0][ballY+1] == 1)
+  if(speedX < 0 && ballX == 1 && speedY > 0 && gameSpace[0][ballY+1] == 1)
     speedX*-1;
 
-  if(speedX > 0 && speedY < 0 && gameSpace[7][ballY-1] == 1)
+  if(speedX > 0 && ballX == 6 && speedY < 0 && gameSpace[7][ballY-1] == 1)
     speedX*-1;
 
-  if(speedX > 0 && speedY > 0 && gameSpace[7][ballY+1] == 1)
+  if(speedX > 0 && ballX == 6 && speedY > 0 && gameSpace[7][ballY+1] == 1)
     speedX*-1;
   
   if(speedX > 0)
@@ -204,12 +204,12 @@ void setup()
   pinMode(p1Pin,INPUT);
   pinMode(p2Pin,INPUT);
 
-  speedX = random(-1,0);
+  speedX = random(0,1);
   if(speedX == 0)
-    speedX++;
-  speedY = random(-1,0);
+    speedX--;
+  speedY = random(0,1);
   if(speedY == 0)
-    speedY++;
+    speedY--;
 }
 
 void loop()
