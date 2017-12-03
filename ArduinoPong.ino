@@ -27,7 +27,7 @@
 const byte gameSpeed = 10;  //number of ticks for each frame of 
 
 //input pinouts
-const int p1Pin   = 13;
+const int p1Pin = 13;
 const int p2Pin = 12;
 
 byte victory = 0;     //0 nothing, 1 p1 score, 2 p2 score, 3 p1 win, 4 p2 win
@@ -103,7 +103,44 @@ void blank()
 
 void moveBall()
 {
+  if(speedX > 0 && ballX == 7)
+  {
+    //victory condition
+  }
+  else if(speedX < 0 && ballX == 0)
+  {
+    //victory condition
+  }
+  else if(speedY > 0 && ballY == 7)
+  {
+    speedY*-1;
+  }
+  else if(speedY < 0 && ballY == 0)
+  {
+    speedY*-1;
+  }
+
+  if(speedX < 0 && speedY < 0 && gameSpace[0][ballY-1] == 1)
+    speedX*-1;
+
+  if(speedX < 0 && speedY > 0 && gameSpace[0][ballY+1] == 1)
+    speedX*-1;
+
+  if(speedX > 0 && speedY < 0 && gameSpace[7][ballY-1] == 1)
+    speedX*-1;
+
+  if(speedX > 0 && speedY > 0 && gameSpace[7][ballY+1] == 1)
+    speedX*-1;
   
+  if(speedX > 0)
+    ballX++;
+  else
+    ballX--;
+
+  if(speedY > 0)
+    ballY++;
+  else
+    ballY--;
 }
 
 void moveP1(int dir)
@@ -166,6 +203,13 @@ void setup()
 
   pinMode(p1Pin,INPUT);
   pinMode(p2Pin,INPUT);
+
+  speedX = random(-1,0);
+  if(speedX == 0)
+    speedX++;
+  speedY = random(-1,0);
+  if(speedY == 0)
+    speedY++;
 }
 
 void loop()
@@ -184,11 +228,11 @@ void loop()
   
   if(digitalRead(p2Pin) == HIGH)
   {
-    p2Input = 1;
+    p2Input = 2;  //Player 2 has opposite gravity
   }
   else
   {
-    p2Input = 2;
+    p2Input = 1;
   }
   
   for(int i = 0 ; i < gameSpeed ; i++)
