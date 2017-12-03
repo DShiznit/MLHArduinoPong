@@ -113,13 +113,17 @@ void moveP1(int dir)
   if (dir < 0)
   {
     if(p1height > 0)
+    {
       p1height--;
+    }
   }
 
   if (dir > 0)
   {
     if(p1height < 6)
+    {
       p1height++;
+    }
   }
 }
 
@@ -128,13 +132,17 @@ void moveP2(int dir)
   if (dir < 0)
   {
     if(p2height > 0)
+    {
       p2height--;
+    }
   }
 
   if (dir > 0)
   {
     if(p2height < 6)
+    {
       p2height++;
+    }
   }
 }
 
@@ -166,20 +174,27 @@ void setup()
 
 void loop()
 {
-  byte p1Input = 0; //0 nothing, 1 up, 2 down
-  byte p2Input = 0; 
+  int p1Input = 0; //0 nothing, 1 up, 2 down
+  int p2Input = 0; 
 
   if(digitalRead(p1UpPin == HIGH))
+  {
     p1Input = 1;
+  }
 
   if(digitalRead(p1DownPin == HIGH))
+  {
     p1Input = 2;
-
+  }
+  
   if(digitalRead(p2UpPin == HIGH))
+  {
     p2Input = 1;
-
+  }
   if(digitalRead(p1UpPin == HIGH))
+  {
     p2Input = 2;
+  }
   
   for(int i = 0 ; i < gameSpeed ; i++)
   {
