@@ -177,21 +177,21 @@ void loop()
   int p1Input = 0; //0 nothing, 1 up, 2 down
   int p2Input = 0; 
 
-  if(digitalRead(p1UpPin == HIGH))
+  if(digitalRead(p1UpPin) == HIGH)
   {
     p1Input = 1;
   }
 
-  if(digitalRead(p1DownPin == HIGH))
+  if(digitalRead(p1DownPin) == HIGH)
   {
     p1Input = 2;
   }
   
-  if(digitalRead(p2UpPin == HIGH))
+  if(digitalRead(p2UpPin) == HIGH)
   {
     p2Input = 1;
   }
-  if(digitalRead(p1UpPin == HIGH))
+  if(digitalRead(p1UpPin) == HIGH)
   {
     p2Input = 2;
   }
